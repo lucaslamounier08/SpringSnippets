@@ -43,7 +43,7 @@ This section lists the features and components implemented in the project. Use i
 ### Upcoming or Planned Features
 - [x] Health check with Spring Actuator
 - [x] Database integration (e.g., PostgreSQL, MySQL, or H2).
-  - H2 integration with migrations.
+  - H2 integration with Flyway migrations.
 - [ ] Implement CRUD functionality for a sample entity.
 - [ ] Add validation to request payloads.
 - [ ] Introduce Spring Security for authentication and authorization.
