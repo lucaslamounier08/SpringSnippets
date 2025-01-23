@@ -49,7 +49,7 @@ This section lists the features and components implemented in the project. Use i
 - [ ] Add validation to request payloads.
 - [ ] Introduce Spring Security for authentication and authorization.
 - [ ] Dockerize the application for easier deployment.
-- [ ] Add unit and integration tests with JUnit and Mockito.
+- [x] Add unit and integration tests with JUnit and Mockito.
 - [ ] Explore Spring Boot's Actuator for monitoring.
 - [ ] Set up OpenAPI documentation (e.g., Swagger UI).
 - [ ] Implement caching using Redis.
