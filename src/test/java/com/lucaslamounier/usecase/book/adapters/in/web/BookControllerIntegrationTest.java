@@ -1,12 +1,21 @@
 package com.lucaslamounier.usecase.book.adapters.in.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lucaslamounier.usecase.book.core.domain.Book;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -25,6 +34,9 @@ class BookControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void testCreateBook() throws Exception {
@@ -45,6 +57,62 @@ class BookControllerIntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", matchesPattern("/api/books/\\d+")))
                 .andExpect(content().string(""));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidBooks")
+    void givenInvalidRequest_whenCreateBook_mustReturnBadRequest(Book invalidBookJson, String expectedField, String expectedMessage) throws Exception {
+        mockMvc.perform(post("/api/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidBookJson)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].field").value(expectedField))
+                .andExpect(jsonPath("$.errors[0].message").value(expectedMessage));
+    }
+
+    private static Stream<Arguments> provideInvalidBooks() {
+        Book validBook = Book.builder()
+                .title("titleTest")
+                .author("authorTest")
+                .publishedDate(LocalDate.now())
+                .isbn("isbnTest")
+                .price(BigDecimal.TEN).build();
+
+        return Stream.of(
+                Arguments.of(validBook.toBuilder().title(null).build(),
+                        "title", "must not be blank"
+                ),
+                Arguments.of(validBook.toBuilder().title("").build(),
+                        "title", "must not be blank"
+                ),
+                Arguments.of(validBook.toBuilder().title("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.").build(),
+                        "title", "size must be between 0 and 255"
+                ),
+                Arguments.of(validBook.toBuilder().author(null).build(),
+                        "author", "must not be blank"
+                ),
+                Arguments.of(validBook.toBuilder().author("").build(),
+                        "author", "must not be blank"
+                ),
+                Arguments.of(validBook.toBuilder().author("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.").build(),
+                        "author", "size must be between 0 and 255"
+                ),
+                Arguments.of(validBook.toBuilder().publishedDate(LocalDate.MAX).build(),
+                        "publishedDate", "Published date year must be between 2020 and 2120"
+                ),
+                Arguments.of(validBook.toBuilder().publishedDate(LocalDate.MIN).build(),
+                        "publishedDate", "Published date year must be between 2020 and 2120"
+                ),
+                Arguments.of(validBook.toBuilder().isbn("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.").build(),
+                        "isbn", "size must be between 0 and 20"
+                ),
+                Arguments.of(validBook.toBuilder().price(BigDecimal.valueOf(-10L)).build(),
+                        "price", "Price must be greater than 0 and less than 999"
+                ),
+                Arguments.of(validBook.toBuilder().price(BigDecimal.valueOf(1000L)).build(),
+                        "price", "Price must be greater than 0 and less than 999"
+                ));
     }
 
     @Test

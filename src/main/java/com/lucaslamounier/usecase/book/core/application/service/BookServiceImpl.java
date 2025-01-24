@@ -1,8 +1,8 @@
-package com.lucaslamounier.usecase.book.application.service;
+package com.lucaslamounier.usecase.book.core.application.service;
 
-import com.lucaslamounier.usecase.book.application.port.in.BookService;
-import com.lucaslamounier.usecase.book.application.port.out.BookPersistencePort;
-import com.lucaslamounier.usecase.book.domain.Book;
+import com.lucaslamounier.usecase.book.ports.in.BookService;
+import com.lucaslamounier.usecase.book.ports.out.BookPersistencePort;
+import com.lucaslamounier.usecase.book.core.domain.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -45,11 +45,12 @@ This section lists the features and components implemented in the project. Use i
 - [x] Database integration (e.g., PostgreSQL, MySQL, or H2).
   - [x] H2 integration with Flyway migrations.
 - [x] Implement CRUD functionality for a sample entity.
-  - [x] With integration tests
-- [ ] Add validation to request payloads.
+  - [x] With integration tests.
+- [x] Add validation to request payloads.
 - [ ] Introduce Spring Security for authentication and authorization.
 - [ ] Dockerize the application for easier deployment.
 - [x] Add unit and integration tests with JUnit and Mockito.
+  - [x] Add Parametrization tests.
 - [ ] Explore Spring Boot's Actuator for monitoring.
 - [ ] Set up OpenAPI documentation (e.g., Swagger UI).
 - [ ] Implement caching using Redis.

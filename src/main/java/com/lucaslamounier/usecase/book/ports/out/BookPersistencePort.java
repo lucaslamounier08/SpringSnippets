@@ -1,6 +1,6 @@
-package com.lucaslamounier.usecase.book.application.port.out;
+package com.lucaslamounier.usecase.book.ports.out;
 
-import com.lucaslamounier.usecase.book.domain.Book;
+import com.lucaslamounier.usecase.book.core.domain.Book;
 
 import java.util.List;
 import java.util.Optional;

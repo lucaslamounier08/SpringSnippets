@@ -1,7 +1,7 @@
 package com.lucaslamounier.usecase.book.adapters.out.persistence;
 
-import com.lucaslamounier.usecase.book.application.port.out.BookPersistencePort;
-import com.lucaslamounier.usecase.book.domain.Book;
+import com.lucaslamounier.usecase.book.ports.out.BookPersistencePort;
+import com.lucaslamounier.usecase.book.core.domain.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
