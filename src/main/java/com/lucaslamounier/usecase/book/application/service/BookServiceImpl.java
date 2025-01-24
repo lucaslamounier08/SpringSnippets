@@ -31,6 +31,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book updateBook(Book existingBook, Book book) {
+        return bookPersistencePort.updateBook(existingBook, book);
+    }
+
+    @Override
     public void deleteBook(Long id) {
         bookPersistencePort.deleteById(id);
     }

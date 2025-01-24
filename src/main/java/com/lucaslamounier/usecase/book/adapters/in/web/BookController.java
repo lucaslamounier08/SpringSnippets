@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -17,7 +19,8 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        return ResponseEntity.ok(bookService.createBook(book));
+        book = bookService.createBook(book);
+        return ResponseEntity.created(URI.create("/api/books/" + book.getId())).build();
     }
 
     @GetMapping("/{id}")
@@ -30,6 +33,19 @@ public class BookController {
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         return ResponseEntity.ok(bookService.getAllBooks());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
+        Optional<Book> existingBook = bookService.getBookById(id);
+
+        if (existingBook.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Book updatedBook = bookService.updateBook(existingBook.get(), book);
+
+        return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping("/{id}")

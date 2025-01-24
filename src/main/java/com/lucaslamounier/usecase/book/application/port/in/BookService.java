@@ -9,5 +9,6 @@ public interface BookService {
     Book createBook(Book book);
     Optional<Book> getBookById(Long id);
     List<Book> getAllBooks();
+    Book updateBook(Book existingBook, Book book);
     void deleteBook(Long id);
 }

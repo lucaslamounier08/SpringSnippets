@@ -34,6 +34,14 @@ public class BookPersistenceAdapter implements BookPersistencePort {
     }
 
     @Override
+    public Book updateBook(Book existingBook, Book book) {
+        BookEntity entity = toEntity(book);
+        entity.setId(existingBook.getId());
+
+        return toDomain(bookRepository.save(entity));
+    }
+
+    @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
     }
