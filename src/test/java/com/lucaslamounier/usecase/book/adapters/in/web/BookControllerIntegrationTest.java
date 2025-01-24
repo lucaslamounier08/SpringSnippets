@@ -99,10 +99,10 @@ class BookControllerIntegrationTest {
                         "author", "size must be between 0 and 255"
                 ),
                 Arguments.of(validBook.toBuilder().publishedDate(LocalDate.MAX).build(),
-                        "publishedDate", "Published date year must be between 2020 and 2120"
+                        "publishedDate", "Published date year must be between 1500 and 2120"
                 ),
                 Arguments.of(validBook.toBuilder().publishedDate(LocalDate.MIN).build(),
-                        "publishedDate", "Published date year must be between 2020 and 2120"
+                        "publishedDate", "Published date year must be between 1500 and 2120"
                 ),
                 Arguments.of(validBook.toBuilder().isbn("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.").build(),
                         "isbn", "size must be between 0 and 20"

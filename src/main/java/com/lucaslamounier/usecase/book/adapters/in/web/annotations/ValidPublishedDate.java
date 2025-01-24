@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPublishedDate {
-    String message() default "Published date year must be between 2020 and 2120";
+    String message() default "Published date year must be between 1500 and 2120";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

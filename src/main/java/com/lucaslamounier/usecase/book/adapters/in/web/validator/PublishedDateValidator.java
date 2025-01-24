@@ -16,6 +16,6 @@ public class PublishedDateValidator implements ConstraintValidator<ValidPublishe
 
         int year = date.getYear();
 
-        return year >= 2020 && year <= 2120;
+        return year >= 1500 && year <= 2120;
     }
 }
