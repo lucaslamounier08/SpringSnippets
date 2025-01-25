@@ -1,10 +1,12 @@
 package com.lucaslamounier.swagger;
 
+import com.lucaslamounier.usecase.book.adapters.in.sqs.SqsMessageConsumer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -18,6 +20,9 @@ class SwaggerOpenApiIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private SqsMessageConsumer sqsMessageConsumer;
 
     @Test
     void healthEndpointShouldReturnUp() throws Exception {

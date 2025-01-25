@@ -55,7 +55,7 @@ This section lists the features and components implemented in the project. Use i
 - [x] Explore Spring Boot's Actuator for monitoring.
 - [x] Set up OpenAPI documentation (e.g., Swagger UI).
 - [ ] Implement caching using Redis.
-- [ ] Experiment with messaging systems like RabbitMQ or Kafka.
+- [x] Messaging systems (AWS SQS).
 
 ---
 

@@ -1,6 +1,7 @@
 package com.lucaslamounier.usecase.book.adapters.in.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lucaslamounier.usecase.book.adapters.in.sqs.SqsMessageConsumer;
 import com.lucaslamounier.usecase.book.core.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -37,6 +39,9 @@ class BookControllerIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockitoBean
+    private SqsMessageConsumer sqsMessageConsumer;
 
     @Test
     void testCreateBook() throws Exception {
