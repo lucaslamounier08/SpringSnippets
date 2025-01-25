@@ -56,7 +56,7 @@ class SqsMessageConsumerIntegrationTest {
     }
 
     @Test
-    void givenValidMessageSentToSqsQueue_whenConsumed_mustSaveNewBook() {
+    void givenValidMessageSentToSqsQueue_whenConsumed_mustSaveNewBook() throws InterruptedException {
         // Given: a valid message
         String message = """
                 {
@@ -67,6 +67,9 @@ class SqsMessageConsumerIntegrationTest {
 
         // When: the message is sent to the SQS queue
         sqsTemplate.send(QUEUE_NAME, message);
+
+        // Pause to ensure consumer processes the message
+        Thread.sleep(2000);
 
         // Then: the book must be saved
         Optional<BookEntity> bookPersisted = bookRepository.findByTitle("titleTest");
