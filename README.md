@@ -42,8 +42,8 @@ This section lists the features and components implemented in the project. Use i
 
 ### Upcoming or Planned Features
 - [x] Health check with Spring Actuator
-- [x] Database integration (e.g., PostgreSQL, MySQL, or H2).
-  - [x] H2 integration with Flyway migrations.
+- [x] Database integration with H2.
+  - [x] Flyway migrations.
 - [x] Implement CRUD functionality for a sample entity.
   - [x] With hexagonal architecture 
   - [x] With integration tests.
@@ -52,7 +52,7 @@ This section lists the features and components implemented in the project. Use i
 - [ ] Dockerize the application for easier deployment.
 - [x] Add unit and integration tests with JUnit and Mockito.
   - [x] Add Parametrization tests.
-- [ ] Explore Spring Boot's Actuator for monitoring.
+- [x] Explore Spring Boot's Actuator for monitoring.
 - [x] Set up OpenAPI documentation (e.g., Swagger UI).
 - [ ] Implement caching using Redis.
 - [ ] Experiment with messaging systems like RabbitMQ or Kafka.
