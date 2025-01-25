@@ -2,6 +2,7 @@ package com.lucaslamounier.usecase.book.adapters.in.web;
 
 import com.lucaslamounier.usecase.book.core.domain.Book;
 import com.lucaslamounier.usecase.book.ports.in.BookService;
+import com.lucaslamounier.usecase.shared.annotation.LogExecutionTime;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class BookController {
 
     private final BookService bookService;
 
+    @LogExecutionTime
     @PostMapping
     public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
         book = bookService.createBook(book);

@@ -48,6 +48,7 @@ This section lists the features and components implemented in the project. Use i
   - [x] With hexagonal architecture 
   - [x] With integration tests.
 - [x] Add validation to request payloads.
+- [x] Custom annotation — @LogExecutionTime with custom AOP.
 - [ ] Introduce Spring Security for authentication and authorization.
 - [ ] Dockerize the application for easier deployment.
 - [x] Add unit and integration tests with JUnit and Mockito.
