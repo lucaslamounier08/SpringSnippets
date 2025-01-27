@@ -2,9 +2,18 @@ package com.lucaslamounier.usecase.book.adapters.out.persistence;
 
 import com.lucaslamounier.usecase.book.ports.out.BookPersistencePort;
 import com.lucaslamounier.usecase.book.core.domain.Book;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +22,8 @@ import java.util.Optional;
 public class BookPersistenceAdapter implements BookPersistencePort {
 
     private final BookRepository bookRepository;
+    @PersistenceContext
+    private final EntityManager entityManager;
 
     @Override
     public Book save(Book book) {
@@ -45,6 +56,53 @@ public class BookPersistenceAdapter implements BookPersistencePort {
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
     }
+
+    @Override
+    public List<Book> findBooksByCriteria(String title, String author, String isbn,
+                                          LocalDate publishedDateMin, LocalDate publishedDateMax,
+                                          BigDecimal priceMin, BigDecimal priceMax) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<BookEntity> query = cb.createQuery(BookEntity.class);
+        Root<BookEntity> root = query.from(BookEntity.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (title != null && !title.isBlank()) {
+            predicates.add(cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%"));
+        }
+
+        if (author != null && !author.isBlank()) {
+            predicates.add(cb.like(cb.lower(root.get("author")), "%" + author.toLowerCase() + "%"));
+        }
+
+        if (isbn != null && !isbn.isBlank()) {
+            predicates.add(cb.equal(root.get("isbn"), isbn));
+        }
+
+        if (publishedDateMin != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("publishedDate"), publishedDateMin));
+        }
+
+        if (publishedDateMax != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get("publishedDate"), publishedDateMax));
+        }
+
+        if (priceMin != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("price"), priceMin));
+        }
+
+        if (priceMax != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get("price"), priceMax));
+        }
+
+        query.where(predicates.toArray(new Predicate[0]));
+
+        return entityManager.createQuery(query).getResultList()
+                .stream()
+                .map(this::toDomain)
+                .toList();
+    }
+
 
     private BookEntity toEntity(Book book) {
         BookEntity entity = new BookEntity();

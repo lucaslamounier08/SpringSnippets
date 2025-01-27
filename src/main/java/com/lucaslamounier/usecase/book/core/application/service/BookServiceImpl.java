@@ -6,6 +6,8 @@ import com.lucaslamounier.usecase.book.core.domain.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +40,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(Long id) {
         bookPersistencePort.deleteById(id);
+    }
+
+    @Override
+    public List<Book> findBooksByCriteria(String title, String author, String isbn, LocalDate publishedDateMin, LocalDate publishedDateMax, BigDecimal priceMin, BigDecimal priceMax) {
+        return bookPersistencePort.findBooksByCriteria(title, author, isbn, publishedDateMin, publishedDateMax, priceMin, priceMax);
     }
 }

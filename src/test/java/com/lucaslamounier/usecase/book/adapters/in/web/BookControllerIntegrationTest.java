@@ -241,4 +241,85 @@ class BookControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void testFindBooksWithFiltersByTitle() throws Exception {
+        mockMvc.perform(get("/api/books/filter")
+                        .param("title", "The Great Gatsby"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("The Great Gatsby"))
+                .andExpect(jsonPath("$[0].author").value("F. Scott Fitzgerald"))
+                .andExpect(jsonPath("$[0].isbn").value("9780743273565"));
+    }
+
+    @Test
+    void testFindBooksWithFiltersByAuthor() throws Exception {
+        mockMvc.perform(get("/api/books/filter")
+                        .param("author", "George Orwell"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("1984"))
+                .andExpect(jsonPath("$[0].author").value("George Orwell"))
+                .andExpect(jsonPath("$[0].isbn").value("9780451524935"));
+    }
+
+    @Test
+    void testFindBooksWithFiltersByPublishedDateRange() throws Exception {
+        mockMvc.perform(get("/api/books/filter")
+                        .param("publishedDateMin", "1940-01-01")
+                        .param("publishedDateMax", "1950-01-01"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("1984"))
+                .andExpect(jsonPath("$[0].author").value("George Orwell"))
+                .andExpect(jsonPath("$[0].isbn").value("9780451524935"));
+    }
+
+    @Test
+    void testFindBooksWithFiltersByPriceRange() throws Exception {
+        mockMvc.perform(get("/api/books/filter")
+                        .param("priceMin", "8.00")
+                        .param("priceMax", "9.00"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("1984"))
+                .andExpect(jsonPath("$[0].author").value("George Orwell"))
+                .andExpect(jsonPath("$[0].isbn").value("9780451524935"));
+    }
+
+    @Test
+    void testFindBooksWithMultipleFilters() throws Exception {
+        mockMvc.perform(get("/api/books/filter")
+                        .param("title", "1984")
+                        .param("author", "George Orwell")
+                        .param("priceMin", "8.00")
+                        .param("priceMax", "9.00"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].title").value("1984"))
+                .andExpect(jsonPath("$[0].author").value("George Orwell"))
+                .andExpect(jsonPath("$[0].isbn").value("9780451524935"));
+    }
+
+    @Test
+    void testFindBooksWithFiltersNoResults() throws Exception {
+        mockMvc.perform(get("/api/books/filter")
+                        .param("title", "Nonexistent Book"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(0));
+    }
+
 }

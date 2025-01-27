@@ -41,22 +41,22 @@ This section lists the features and components implemented in the project. Use i
 - Maven configuration for dependency management.
 
 ### Upcoming or Planned Features
-- [x] Health check with Spring Actuator
-- [x] Database integration with H2.
-  - [x] Flyway migrations.
-- [x] Implement CRUD functionality for a sample entity.
-  - [x] With hexagonal architecture 
-  - [x] With integration tests.
+- [x] Health check with `Spring Actuator` for monitoring.
+- [x] Database integration with `H2`.
+  - [x] `Flyway` migrations.
+- [x] Implement `CRUD` functionality for a sample entity.
+  - [x] With `hexagonal architecture`.
+  - [x] With dynamic queries using `CriteriaBuilder`.
+  - [x] With `integration tests`.
 - [x] Add validation to request payloads.
-- [x] Custom annotation — @LogExecutionTime with custom AOP.
+- [x] Custom annotation — `@LogExecutionTime` with custom `AOP`.
 - [ ] Introduce Spring Security for authentication and authorization.
 - [ ] Dockerize the application for easier deployment.
-- [x] Add unit and integration tests with JUnit and Mockito.
+- [x] Add unit and integration tests with `JUnit` and `Mockito`.
   - [x] Add Parametrization tests.
-- [x] Explore Spring Boot's Actuator for monitoring.
-- [x] Set up OpenAPI documentation (e.g., Swagger UI).
-- [ ] Implement caching using Redis.
-- [x] Messaging systems (AWS SQS).
+- [x] Set up `OpenAPI` documentation (`Swagger UI`).
+- [ ] Implement caching using `Redis`.
+- [x] Messaging systems (`AWS SQS`).
 
 ---
 
