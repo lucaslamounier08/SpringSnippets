@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    environment:
+      - SERVICES=sqs
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DEFAULT_REGION=us-east-1
+    ports:
+      - "4566:4566" # Main LocalStack endpoint
+    volumes:
+      - localstack_data:/var/lib/localstack
+    command: >
+      sh -c "
+      until curl -f http://localhost:4566/_localstack/health --silent; do
+        echo 'Waiting for LocalStack...';
+        sleep 2;
+      done;
+      awslocal sqs create-queue --queue-name crete-book-queue;
+      exec localstack start
+      "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  localstack_data:
